@@ -1,17 +1,23 @@
 ---
+import Header from '../components/Header.astro'
 import Layout from '../layouts/Layout.astro'
+import SeasonAnimes from '../components/SeasonAnimes.astro'
 ---
 
-<Layout title='MyAnimuList' />
+<Layout title='MyAnimuList'>
+  <Header />
+  <main>
+    <SeasonAnimes />
+  </main>
+</Layout>
 
 <style>
   main {
-    margin: auto;
-    padding: 1rem;
-    width: 800px;
-    max-width: calc(100% - 2rem);
     color: white;
     font-size: 20px;
-    line-height: 1.6;
+    padding: 4px;
+  }
+  a {
+    color: white;
   }
 </style>

@@ -1,22 +1,26 @@
+---
+import Logo from './Logo.astro'
+---
+
 <header>
-  <a href='/'>MyAnimuList</a>
+  <a href='/'><Logo /></a>
 </header>
 
 <style>
   header {
     display: flex;
-    padding: 12px 18px;
     justify-content: start;
     align-items: center;
-    border-radius: 8px;
-    background-color: #333;
     color: #fff;
+    padding: 24px 0px;
   }
 
-  header a {
-    font-size: 1.5em;
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
+  a {
+    width: 20em;
+    color: #252738;
+
+    &:hover {
+      color: #00010a;
+    }
   }
 </style>

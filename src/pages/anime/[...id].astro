@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths } from 'astro'
+import Layout from '../../layouts/Layout.astro'
+import { getAnimeById } from '../../services/api-service'
+
+export const getStaticPaths = (() => {
+  return [
+    {
+      params: {
+        id: '52299'
+      }
+    }
+  ]
+}) satisfies GetStaticPaths
+
+const { id = '' } = Astro.params
+
+const response = await getAnimeById(id)
+const { data } = response
+const { mal_id, title, images } = data
+---
+
+<Layout title='MyAnimuList'>
+  <div>
+    <h1>{title}</h1>
+    <img transition:name='details' src={images.jpg.image_url} alt={title} />
+  </div>
+</Layout>
+../../services/api-service

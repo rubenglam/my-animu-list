@@ -4,7 +4,7 @@
 //
 //   "Set quicktype target language"
 
-export interface GetSeasonAnime {
+export interface GetSeasonAnimesResponse {
   pagination: Pagination
   data: Datum[]
 }

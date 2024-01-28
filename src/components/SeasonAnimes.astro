@@ -1,8 +1,7 @@
 ---
-import { getSeasonAnimes } from '../services/get-season-animes'
+import { getSeasonAnimes } from '../services/api-service'
 
 const animes = await getSeasonAnimes()
-console.log(animes.data[0].images)
 ---
 
 <section>
@@ -10,48 +9,127 @@ console.log(animes.data[0].images)
   <div>
     {
       animes.data.map(anime => (
-        <article>
-          <img src={anime.images.webp.image_url} alt={anime.title} />
-          <footer>{anime.title}</footer>
+        <article data-id={anime.mal_id}>
+          <div class='anime-rating'>
+            <span>{anime.score || 'NR'}</span>
+          </div>
+          <a transition:name='details' href={`/anime/${anime.mal_id}`}>
+            <img src={anime.images.webp.image_url} alt={anime.title} />
+            <footer>{anime.title}</footer>
+          </a>
         </article>
       ))
     }
+    <div>
+      <button id='season-animes-see-more-btn'>See more</button>
+    </div>
   </div>
 </section>
 
 <style>
-  h3 {
-    margin-bottom: 12px;
+  @keyframes opacity-animation {
+    to {
+      opacity: 1;
+    }
   }
 
-  section > div {
-    border: 1px solid #444;
-    padding: 6px;
-    border-radius: 6px;
-    display: flex;
-    width: 100%;
-    overflow-x: scroll;
-    gap: 6px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+  section {
+    margin-top: 24px;
+    display: grid;
+    gap: 12px;
+
+    & h3 {
+      margin-bottom: 12px;
+    }
+    & > div {
+      border: 1px solid #444;
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+      width: 100%;
+      overflow-x: scroll;
+      gap: 6px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
+
   article {
     position: relative;
     border-radius: 6px;
+    opacity: 0;
+    animation: opacity-animation 0.3s ease-in-out forwards;
+
+    & .anime-rating {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 4px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: #fff;
+    }
+    & img {
+      width: 180px;
+      aspect-ratio: 2/3;
+      border-radius: 6px;
+    }
+    & footer {
+      margin-top: 4px;
+      text-align: center;
+      font-size: 0.8rem;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 8;
+    }
+    &:first-child {
+      animation-delay: 0;
+    }
+    &:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+    &:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+    &:nth-child(5) {
+      animation-delay: 0.4s;
+    }
+    &:nth-child(6) {
+      animation-delay: 0.5s;
+    }
+    &:nth-child(7) {
+      animation-delay: 0.6s;
+    }
   }
-  article img {
-    width: 180px;
-    aspect-ratio: 2/3;
-    border-radius: 6px;
+
+  #season-animes-see-more-btn {
+    display: grid;
+    place-items: center;
+    align-items: center;
   }
-  article footer {
-    margin-top: 4px;
-    text-align: center;
-    font-size: 0.8rem;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 8;
+
+  @media (min-width: 768px) {
+    section {
+      & > div {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+    }
   }
 </style>
+
+<script>
+  const articles = document.querySelectorAll('article')
+  articles.forEach(article => {
+    article.addEventListener('click', function () {
+      const id = this.dataset.id
+      window.location.href = `/anime/${id}`
+    })
+  })
+</script>
+../services/api-service

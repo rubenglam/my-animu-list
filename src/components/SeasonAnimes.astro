@@ -5,7 +5,7 @@ const animes = await getSeasonAnimes()
 ---
 
 <section>
-  <h3>Seasonal animes</h3>
+  <h2>Seasonal animes</h2>
   <div>
     {
       animes.data.map(anime => (
@@ -13,10 +13,8 @@ const animes = await getSeasonAnimes()
           <div class='anime-rating'>
             <span>{anime.score || 'NR'}</span>
           </div>
-          <a transition:name='details' href={`/anime/${anime.mal_id}`}>
-            <img src={anime.images.webp.image_url} alt={anime.title} />
-            <footer>{anime.title}</footer>
-          </a>
+          <img transition:name={`details-${anime.mal_id}`} transition:animate='fade' src={anime.images.webp.image_url} alt={anime.title} />
+          <footer>{anime.title}</footer>
         </article>
       ))
     }
@@ -38,7 +36,9 @@ const animes = await getSeasonAnimes()
     display: grid;
     gap: 12px;
 
-    & h3 {
+    & h2 {
+      font-size: 1.3em;
+      font-weight: 500;
       margin-bottom: 12px;
     }
     & > div {
@@ -57,6 +57,7 @@ const animes = await getSeasonAnimes()
     position: relative;
     border-radius: 6px;
     opacity: 0;
+    cursor: pointer;
     animation: opacity-animation 0.3s ease-in-out forwards;
 
     & .anime-rating {
@@ -124,12 +125,13 @@ const animes = await getSeasonAnimes()
 </style>
 
 <script>
+  import { navigate } from 'astro:transitions/client'
+
   const articles = document.querySelectorAll('article')
   articles.forEach(article => {
     article.addEventListener('click', function () {
       const id = this.dataset.id
-      window.location.href = `/anime/${id}`
+      navigate(`/anime/${id}`)
     })
   })
 </script>
-../services/api-service

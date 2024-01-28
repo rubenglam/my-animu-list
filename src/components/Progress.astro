@@ -1,0 +1,23 @@
+<div></div>
+
+<style>
+  @keyframes animation-timeline {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 0.2em;
+    background: white;
+    animation: animation-timeline auto linear;
+    animation-timeline: scroll(root);
+  }
+</style>

@@ -1,9 +1,8 @@
 ---
-import type { GetStaticPaths } from 'astro'
 import Layout from '../../layouts/Layout.astro'
 import { getAnimeById } from '../../services/api-service'
 
-export const getStaticPaths = (() => {
+export function getStaticPaths() {
   return [
     {
       params: {
@@ -11,19 +10,67 @@ export const getStaticPaths = (() => {
       }
     }
   ]
-}) satisfies GetStaticPaths
+}
 
 const { id = '' } = Astro.params
 
 const response = await getAnimeById(id)
 const { data } = response
-const { mal_id, title, images } = data
+const { mal_id, title, images, episodes, status, score, synopsis, genres } = data
 ---
 
 <Layout title='MyAnimuList'>
-  <div>
-    <h1>{title}</h1>
-    <img transition:name='details' src={images.jpg.image_url} alt={title} />
-  </div>
+  <section>
+    <header>
+      <h1>{title}</h1>
+      <img transition:name={`details-${mal_id}`} transition:animate='fade' src={images.jpg.image_url} alt={title} />
+    </header>
+    <div>
+      <p>Episodes: {episodes}</p>
+      <p>Status: {status}</p>
+      <p>Score: {score}</p>
+    </div>
+    <div class='synopsis__container'>
+      <p>{synopsis}</p>
+    </div>
+    <div>
+      <p>Genres: {genres.map(genre => genre.name).join(', ')}</p>
+    </div>
+  </section>
 </Layout>
-../../services/api-service
+
+<style>
+  section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    gap: 32px;
+  }
+
+  section header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  h1 {
+    font-size: 1.7rem;
+    margin-bottom: 1rem;
+  }
+
+  img {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  .synopsis__container p {
+    text-align: center;
+    max-width: 500px;
+  }
+</style>

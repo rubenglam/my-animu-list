@@ -1,0 +1,6 @@
+pnpm-lock.yaml
+bun.lockb
+package-lock.json
+yarn.lock
+node_modules/
+dist/
